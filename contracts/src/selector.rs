@@ -33,6 +33,7 @@ pub enum SelectorType {
     FakeReceipt,
     Groth16,
     SetVerifier,
+    ShrinkBitvm2,
 }
 
 #[repr(u32)]
@@ -53,6 +54,7 @@ pub enum Selector {
     SetVerifierV0_6 = 0x80479d24,
     SetVerifierV0_7 = 0x0f63ffd5,
     SetVerifierV0_9 = 0x242f9d5b,
+    ShrinkBitvm2V0_1 = 0xb72859b6,
 }
 
 impl Display for Selector {
@@ -80,6 +82,7 @@ impl TryFrom<u32> for Selector {
             0x80479d24 => Ok(Selector::SetVerifierV0_6),
             0x0f63ffd5 => Ok(Selector::SetVerifierV0_7),
             0x242f9d5b => Ok(Selector::SetVerifierV0_9),
+            0xb72859b6 => Ok(Selector::ShrinkBitvm2V0_1),
             _ => Err(SelectorError::UnsupportedSelector),
         }
     }
@@ -143,6 +146,10 @@ impl Selector {
                 "242f9d5b8df6e1660fd7cadeec6f213501adaadb3d03d76b2ba400cf25366e2b",
             )
             .unwrap()),
+            Selector::ShrinkBitvm2V0_1 => Ok(Digest::from_hex(
+                "b72859b60cfe0bb13cbde70859fbc67ef9dbd5410bbe66bdb7be64a3dcf6814e",
+            )
+            .unwrap()),
         }
     }
 
@@ -162,11 +169,17 @@ impl Selector {
             | Selector::SetVerifierV0_6
             | Selector::SetVerifierV0_7
             | Selector::SetVerifierV0_9 => SelectorType::SetVerifier,
+            Selector::ShrinkBitvm2V0_1 => SelectorType::ShrinkBitvm2,
         }
     }
 
     pub fn from_bytes(bytes: [u8; 4]) -> Option<Self> {
         Self::try_from(u32::from_be_bytes(bytes)).ok()
+    }
+
+    /// Returns the selector corresponding to the Bitvm2 Groth16 verifier for the latest zkVM version.
+    pub const fn shrink_bitvm2_latest() -> Self {
+        Self::ShrinkBitvm2V0_1
     }
 
     /// Returns the selector corresponding to the Groth16 verifier for the latest zkVM version.
