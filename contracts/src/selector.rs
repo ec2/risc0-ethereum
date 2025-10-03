@@ -54,7 +54,7 @@ pub enum Selector {
     SetVerifierV0_6 = 0x80479d24,
     SetVerifierV0_7 = 0x0f63ffd5,
     SetVerifierV0_9 = 0x242f9d5b,
-    ShrinkBitvm2V0_1 = 0xb72859b6,
+    ShrinkBitvm2V0_1 = 0xf9d5815f,
 }
 
 impl Display for Selector {
@@ -82,7 +82,7 @@ impl TryFrom<u32> for Selector {
             0x80479d24 => Ok(Selector::SetVerifierV0_6),
             0x0f63ffd5 => Ok(Selector::SetVerifierV0_7),
             0x242f9d5b => Ok(Selector::SetVerifierV0_9),
-            0xb72859b6 => Ok(Selector::ShrinkBitvm2V0_1),
+            0xf9d5815f => Ok(Selector::ShrinkBitvm2V0_1),
             _ => Err(SelectorError::UnsupportedSelector),
         }
     }
@@ -147,7 +147,7 @@ impl Selector {
             )
             .unwrap()),
             Selector::ShrinkBitvm2V0_1 => Ok(Digest::from_hex(
-                "b72859b60cfe0bb13cbde70859fbc67ef9dbd5410bbe66bdb7be64a3dcf6814e",
+                "f9d5815ff56c30abce3427ca3209302e1f02d51c28067ee41fd5933cad3f5490",
             )
             .unwrap()),
         }
