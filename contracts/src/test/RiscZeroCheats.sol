@@ -22,7 +22,7 @@ import {CommonBase} from "forge-std/Base.sol";
 import {console2} from "forge-std/console2.sol";
 
 import {ControlID, RiscZeroGroth16Verifier} from "../groth16/RiscZeroGroth16Verifier.sol";
-import {RiscZeroBitvm2Groth16Verifier} from "../bitvm/RiscZeroBitvm2Groth16Verifier.sol";
+import {RiscZeroBlake3Groth16Verifier} from "../blake3_groth16/RiscZeroBlake3Groth16Verifier.sol";
 import {IRiscZeroVerifier} from "../IRiscZeroVerifier.sol";
 import {RiscZeroMockVerifier} from "./RiscZeroMockVerifier.sol";
 import {Strings2} from "./utils/Strings2.sol";
@@ -89,17 +89,17 @@ abstract contract RiscZeroCheats is CommonBase {
         }
     }
 
-
-    /// @notice Deploy either a test or fully verifying `RiscZeroBitvm2Groth16Verifier` depending on `devMode()`.
-    function deployRiscZeroBitvm2Verifier() internal returns (IRiscZeroVerifier) {
+    /// @notice Deploy either a test or fully verifying `RiscZeroBlake3Groth16Verifier` depending on `devMode()`.
+    function deployRiscZeroBlake3Verifier() internal returns (IRiscZeroVerifier) {
         if (devMode()) {
             // NOTE: Using a fixed selector of 0xFFFFFFFF for the selector of the mock verifier.
             IRiscZeroVerifier verifier = new RiscZeroMockVerifier(bytes4(0xFFFFFFFF));
             console2.log("Deployed RiscZeroMockVerifier to", address(verifier));
             return verifier;
         } else {
-            IRiscZeroVerifier verifier = new RiscZeroBitvm2Groth16Verifier(ControlID.CONTROL_ROOT, ControlID.BN254_CONTROL_ID);
-            console2.log("Deployed RiscZeroBitvm2Groth16Verifier to", address(verifier));
+            IRiscZeroVerifier verifier =
+                new RiscZeroBlake3Groth16Verifier(ControlID.CONTROL_ROOT, ControlID.BN254_CONTROL_ID);
+            console2.log("Deployed RiscZeroBlake3Groth16Verifier to", address(verifier));
             return verifier;
         }
     }

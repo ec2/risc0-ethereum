@@ -25,7 +25,7 @@ import {RiscZeroVerifierEmergencyStop} from "../src/RiscZeroVerifierEmergencySto
 import {IRiscZeroVerifier} from "../src/IRiscZeroVerifier.sol";
 import {IRiscZeroSelectable} from "../src/IRiscZeroSelectable.sol";
 import {ControlID, RiscZeroGroth16Verifier} from "../src/groth16/RiscZeroGroth16Verifier.sol";
-import {RiscZeroBitvm2Groth16Verifier} from "../src/bitvm/RiscZeroBitvm2Groth16Verifier.sol";
+import {RiscZeroBlake3Groth16Verifier} from "../src/blake3_groth16/RiscZeroBlake3Groth16Verifier.sol";
 import {RiscZeroSetVerifier, RiscZeroSetVerifierLib} from "../src/RiscZeroSetVerifier.sol";
 import {ConfigLoader, Deployment, DeploymentLib, VerifierDeployment} from "../src/config/Config.sol";
 
@@ -269,7 +269,7 @@ contract DeployEstopGroth16Verifier is RiscZeroManagementScript {
 ///
 /// See the Foundry documentation for more information about Solidity scripts.
 /// https://book.getfoundry.sh/guides/scripting-with-solidity
-contract DeployEstopBitvm2Verifier is RiscZeroManagementScript {
+contract DeployEstopBlake3Groth16Verifier is RiscZeroManagementScript {
     function run() external withConfig {
         string memory chainKey = vm.envString("CHAIN_KEY");
         console2.log("chainKey:", chainKey);
@@ -278,8 +278,8 @@ contract DeployEstopBitvm2Verifier is RiscZeroManagementScript {
 
         // Deploy new contracts
         vm.broadcast(deployerAddress());
-        RiscZeroBitvm2Groth16Verifier groth16Verifier =
-            new RiscZeroBitvm2Groth16Verifier{salt: CREATE2_SALT}(ControlID.CONTROL_ROOT, ControlID.BN254_CONTROL_ID);
+        RiscZeroBlake3Groth16Verifier groth16Verifier =
+            new RiscZeroBlake3Groth16Verifier{salt: CREATE2_SALT}(ControlID.CONTROL_ROOT, ControlID.BN254_CONTROL_ID);
         _verifier = groth16Verifier;
 
         vm.broadcast(deployerAddress());
@@ -288,7 +288,7 @@ contract DeployEstopBitvm2Verifier is RiscZeroManagementScript {
         // Print in TOML format
         console2.log("");
         console2.log("[[chains.%s.verifiers]]", chainKey);
-        console2.log("name = \"RiscZeroBitvm2Groth16Verifier\"");
+        console2.log("name = \"RiscZeroBlake3Groth16Verifier\"");
         console2.log("version = \"%s\"", groth16Verifier.VERSION());
         console2.log("selector = \"%s\"", Strings.toHexString(uint256(uint32(groth16Verifier.SELECTOR())), 4));
         console2.log("verifier = \"%s\"", address(verifier()));

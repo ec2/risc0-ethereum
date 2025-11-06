@@ -33,7 +33,7 @@ pub enum SelectorType {
     FakeReceipt,
     Groth16,
     SetVerifier,
-    ShrinkBitvm2,
+    Blake3Groth16,
 }
 
 #[repr(u32)]
@@ -54,7 +54,7 @@ pub enum Selector {
     SetVerifierV0_6 = 0x80479d24,
     SetVerifierV0_7 = 0x0f63ffd5,
     SetVerifierV0_9 = 0x242f9d5b,
-    ShrinkBitvm2V0_1 = 0x62f049f6,
+    Blake3Groth16V0_1 = 0x62f049f6,
 }
 
 impl Display for Selector {
@@ -82,7 +82,7 @@ impl TryFrom<u32> for Selector {
             0x80479d24 => Ok(Selector::SetVerifierV0_6),
             0x0f63ffd5 => Ok(Selector::SetVerifierV0_7),
             0x242f9d5b => Ok(Selector::SetVerifierV0_9),
-            0x62f049f6 => Ok(Selector::ShrinkBitvm2V0_1),
+            0x62f049f6 => Ok(Selector::Blake3Groth16V0_1),
             _ => Err(SelectorError::UnsupportedSelector),
         }
     }
@@ -146,7 +146,7 @@ impl Selector {
                 "242f9d5b8df6e1660fd7cadeec6f213501adaadb3d03d76b2ba400cf25366e2b",
             )
             .unwrap()),
-            Selector::ShrinkBitvm2V0_1 => Ok(Digest::from_hex(
+            Selector::Blake3Groth16V0_1 => Ok(Digest::from_hex(
                 "62f049f606e804744f1fac2485677bf7905c82a8174a55a1555532b0fc5b2ab3",
             )
             .unwrap()),
@@ -169,7 +169,7 @@ impl Selector {
             | Selector::SetVerifierV0_6
             | Selector::SetVerifierV0_7
             | Selector::SetVerifierV0_9 => SelectorType::SetVerifier,
-            Selector::ShrinkBitvm2V0_1 => SelectorType::ShrinkBitvm2,
+            Selector::Blake3Groth16V0_1 => SelectorType::Blake3Groth16,
         }
     }
 
@@ -177,9 +177,9 @@ impl Selector {
         Self::try_from(u32::from_be_bytes(bytes)).ok()
     }
 
-    /// Returns the selector corresponding to the Bitvm2 Groth16 verifier for the latest zkVM version.
-    pub const fn shrink_bitvm2_latest() -> Self {
-        Self::ShrinkBitvm2V0_1
+    /// Returns the selector corresponding to the  Blake3Groth16 verifier for the latest zkVM version.
+    pub const fn blake3_groth16_latest() -> Self {
+        Self::Blake3Groth16V0_1
     }
 
     /// Returns the selector corresponding to the Groth16 verifier for the latest zkVM version.

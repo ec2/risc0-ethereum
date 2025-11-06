@@ -120,7 +120,7 @@ pub fn decode_seal_with_claim(
             let receipt = decode_set_inclusion_seal(&seal, claim, verifier_parameters)?;
             Ok(Receipt::SetInclusion(Box::new(receipt)))
         }
-        SelectorType::ShrinkBitvm2 => {
+        SelectorType::Blake3Groth16 => {
             let verifier_parameters = selector.verifier_parameters_digest()?;
             let receipt =
                 decode_groth16_seal(seal, claim, journal.into(), Some(verifier_parameters))?;
